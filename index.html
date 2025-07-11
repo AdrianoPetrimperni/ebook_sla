@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook Interativo: Marketing e Vendas</title>
+    <!-- Link para o Tailwind CSS CDN para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter para todo o corpo do documento */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Cor de fundo suave */
+            color: #333; /* Cor do texto principal */
+            line-height: 1.6; /* Espaçamento entre linhas para melhor legibilidade */
+        }
+        /* Estilos para o contêiner principal do ebook */
+        .ebook-container {
+            max-width: 800px; /* Largura máxima para o conteúdo do ebook */
+            margin: 2rem auto; /* Centraliza o contêiner na página com margem superior/inferior */
+            background-color: #ffffff; /* Fundo branco para o conteúdo */
+            border-radius: 12px; /* Cantos arredondados */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
+            padding: 0; /* Remove padding geral, as seções internas terão seu próprio padding */
+            overflow: hidden; /* Garante que o border-radius seja aplicado corretamente aos filhos */
+        }
+
+        /* Novo estilo para o bloco do cabeçalho principal (onde ficarão a logo e o título) */
+        .header-block {
+            background-color: #2d3748; /* Cor escura para o bloco */
+            color: white; /* Cor do texto dentro do cabeçalho */
+            padding: 1.5rem 2rem; /* Padding interno do bloco do cabeçalho */
+            border-radius: 12px 12px 0 0; /* Cantos arredondados apenas na parte superior */
+            display: flex; /* Usa flexbox para alinhar a logo e o título */
+            flex-direction: column; /* Empilha a logo e o título verticalmente */
+            align-items: center; /* Centraliza horizontalmente o conteúdo */
+            text-align: center; /* Centraliza o texto */
+        }
+
+        /* Estilos para a logo dentro do cabeçalho */
+        .logo-in-header {
+            width: 120px; /* Largura da logo */
+            height: auto; /* Altura automática para manter a proporção */
+            border-radius: 8px; /* Cantos arredondados para a logo */
+            margin-bottom: 1rem; /* Espaçamento abaixo da logo */
+        }
+
+        /* Estilos para o título principal dentro do cabeçalho */
+        .chapter-title-header {
+            font-size: 2.2rem; /* Tamanho da fonte para o título principal */
+            font-weight: 700; /* Negrito */
+            color: #ffffff; /* Cor branca para contraste com o fundo escuro */
+            margin-bottom: 0; /* Remove margem inferior */
+        }
+
+        /* Estilos para as seções de conteúdo (todos os capítulos e seção de contato) */
+        .content-section {
+            padding: 2rem; /* Padding padrão para as seções de conteúdo */
+        }
+
+        /* Estilos para os subtítulos dos capítulos */
+        .section-title {
+            font-size: 1.8rem; /* Tamanho da fonte para subtítulos */
+            font-weight: 600; /* Seminegrito */
+            color: #2d3748; /* Cor ligeiramente mais clara que o título principal */
+            margin-top: 2rem; /* Espaçamento acima do subtítulo */
+            margin-bottom: 1rem; /* Espaçamento abaixo do subtítulo */
+        }
+        /* Estilos para parágrafos */
+        p {
+            margin-bottom: 1rem; /* Espaçamento abaixo dos parágrafos */
+        }
+        /* Estilos para links */
+        a {
+            color: #3182ce; /* Cor azul para links */
+            text-decoration: none; /* Remove sublinhado padrão */
+            transition: color 0.2s ease-in-out; /* Transição suave para hover */
+        }
+        a:hover {
+            color: #2b6cb0; /* Cor mais escura no hover */
+            text-decoration: underline; /* Adiciona sublinhado no hover */
+        }
+        /* Estilos para botões de interação */
+        .interactive-button {
+            display: inline-block; /* Permite que o botão tenha largura e altura definidas */
+            padding: 0.75rem 1.5rem; /* Preenchimento interno */
+            margin: 0.5rem; /* Margem ao redor do botão */
+            background-color: #4299e1; /* Cor de fundo azul */
+            color: white; /* Cor do texto branco */
+            border-radius: 8px; /* Cantos arredondados */
+            font-weight: 600; /* Negrito */
+            text-align: center; /* Centraliza o texto */
+            cursor: pointer; /* Cursor de ponteiro */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Transições suaves */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+        }
+        .interactive-button:hover {
+            background-color: #3182ce; /* Cor mais escura no hover */
+            transform: translateY(-2px); /* Efeito de "levantar" no hover */
+        }
+        .interactive-button:active {
+            transform: translateY(0); /* Retorna à posição original no clique */
+        }
+        /* Estilos para a tabela */
+        table {
+            width: 100%; /* Ocupa a largura total do contêiner */
+            border-collapse: collapse; /* Remove espaçamento entre as bordas das células */
+            margin-bottom: 1.5rem; /* Espaçamento abaixo da tabela */
+        }
+        th, td {
+            border: 1px solid #e2e8f0; /* Borda suave para células */
+            padding: 0.75rem; /* Preenchimento interno das células */
+            text-align: left; /* Alinhamento do texto à esquerda */
+        }
+        th {
+            background-color: #edf2f7; /* Fundo mais claro para cabeçalhos de coluna */
+            font-weight: 600; /* Negrito para cabeçalhos */
+            color: #4a5568; /* Cor do texto para cabeçalhos */
+        }
+        /* Estilos para a seção de feedback do quiz */
+        .feedback-section {
+            background-color: #e6fffa; /* Fundo verde claro */
+            border-left: 5px solid #38b2ac; /* Borda esquerda verde */
+            padding: 1rem; /* Preenchimento interno */
+            margin-top: 1.5rem; /* Espaçamento acima */
+            border-radius: 8px; /* Cantos arredondados */
+            color: #2c5282; /* Cor do texto */
+        }
+        .feedback-section.negative {
+            background-color: #fff5f5; /* Fundo vermelho claro */
+            border-left: 5px solid #e53e3e; /* Borda esquerda vermelha */
+            color: #c53030; /* Cor do texto */
+        }
+        .feedback-section p {
+            margin-bottom: 0.5rem; /* Espaçamento menor para parágrafos de feedback */
+        }
+        /* Estilo para o botão do WhatsApp */
+        .whatsapp-button-container {
+            text-align: center; /* Centraliza o botão */
+            margin-top: 2.5rem; /* Espaçamento superior */
+            margin-bottom: 2.5rem; /* Espaçamento inferior */
+        }
+        .whatsapp-button {
+            display: inline-flex; /* Permite alinhamento de ícone e texto */
+            align-items: center; /* Alinha itens verticalmente */
+            padding: 1rem 2rem; /* Preenchimento generoso */
+            background-color: #25D366; /* Cor verde do WhatsApp */
+            color: white; /* Texto branco */
+            border-radius: 9999px; /* Cantos completamente arredondados (pill shape) */
+            font-size: 1.25rem; /* Tamanho da fonte maior */
+            font-weight: 700; /* Negrito */
+            text-decoration: none; /* Remove sublinhado */
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); /* Sombra com cor do WhatsApp */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Transições suaves */
+        }
+        .whatsapp-button:hover {
+            background-color: #1DA851; /* Cor mais escura no hover */
+            transform: translateY(-3px); /* Efeito de "levantar" no hover */
+        }
+        .whatsapp-button:active {
+            transform: translateY(0); /* Retorna à posição original no clique */
+        }
+        .whatsapp-icon {
+            margin-right: 0.75rem; /* Espaçamento à direita do ícone */
+            font-size: 1.5rem; /* Tamanho do ícone */
+        }
+    </style>
+    <!-- Para o ícone do WhatsApp (Font Awesome) - Mantido caso o usuário queira adicionar outros ícones no futuro -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="ebook-container">
+        <!-- Bloco do cabeçalho principal com fundo escuro, logo e título -->
+        <div class="header-block">
+            <img src="https://taimeagencia.com.br/wp-content/webp-express/webp-images/uploads/2024/11/agencia-marketing-taime-aceleradora-marketing-vendas-estrategias-redes-sociais-videos-profissionais-campanha-anuncios-online-google-instagram-logo2.png.webp" alt="Logo da Táime" class="logo-in-header">
+            <h1 class="chapter-title-header" id="top">Conexão entre Marketing e Vendas: o que realmente gera resultados</h1>
+        </div>
+
+        <!-- Capítulo 1: O Elo Essencial entre Marketing e Vendas -->
+        <div id="chapter1" class="content-section">
+            <h2 class="section-title">Capítulo 1: O Elo Essencial entre Marketing e Vendas</h2>
+            <p>Dedicamos este capítulo à integração entre os times de marketing e vendas porque sabemos que ambos são peças-chave para o crescimento sustentável das empresas. E mais do que isso: quando não estão conectados, o impacto direto é no faturamento.</p>
+            <p>Hoje, <strong>59% dos times comerciais</strong> afirmam que gerar leads qualificados ainda é um desafio constante, enquanto a missão principal do marketing segue sendo gerar demanda para alimentar esse funil. O problema? Apenas <strong>18% das empresas</strong> afirmam ter uma integração satisfatória entre marketing e vendas.</p>
+        </div>
+
+        <!-- Capítulo 2: Nível de integração entre Marketing e Vendas no Brasil (com interatividade) -->
+        <div id="chapter2" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 2: Nível de integração entre Marketing e Vendas no Brasil</h2>
+            <p>Apesar de uma leve melhora de 2024 para 2025, os dados ainda mostram que poucas empresas têm essa conexão resolvida — o que significa perda de oportunidades reais de crescimento.</p>
+
+            <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                <thead>
+                    <tr>
+                        <th class="py-3 px-4">Situação da integração entre os times</th>
+                        <th class="py-3 px-4">Percentual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-3 px-4">Dizem ser satisfatória</td>
+                        <td class="py-3 px-4">18%</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Dizem ter integração, mas ainda em evolução</td>
+                        <td class="py-3 px-4">42%</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Dizem não ter integração</td>
+                        <td class="py-3 px-4">26%</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Não atuam de forma integrada, mas acham que isso não impacta os resultados</td>
+                        <td class="py-3 px-4">14%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="mt-6 font-semibold">Clique na opção que melhor descreve a situação da sua empresa:</p>
+            <div class="flex flex-wrap justify-center mt-4">
+                <a href="#feedback-satisfatoria" class="interactive-button">Minha empresa tem uma integração satisfatória.</a>
+                <a href="#feedback-em-evolucao" class="interactive-button">Temos integração, mas ainda está em evolução.</a>
+                <a href="#feedback-sem-integracao" class="interactive-button">Não temos integração entre Marketing e Vendas.</a>
+                <a href="#feedback-sem-impacto" class="interactive-button">Não atuamos de forma integrada, mas achamos que isso não impacta os resultados.</a>
+            </div>
+
+            <!-- Seções de feedback para o quiz de integração -->
+            <div id="feedback-satisfatoria" class="feedback-section mt-8 hidden">
+                <p><strong>Excelente!</strong> Você está à frente da maioria. Continue aprimorando essa conexão para colher ainda mais resultados.</p>
+                <a href="#chapter2" class="text-sm mt-2 block">Voltar ao Capítulo 2</a>
+            </div>
+            <div id="feedback-em-evolucao" class="feedback-section mt-8 hidden">
+                <p><strong>Isso é um bom começo!</strong> O próximo passo é focar em definir um SLA (Service Level Agreement) para formalizar e otimizar essa parceria.</p>
+                <a href="#chapter2" class="text-sm mt-2 block">Voltar ao Capítulo 2</a>
+            </div>
+            <div id="feedback-sem-integracao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Atenção!</strong> Este é um ponto crítico. Sem integração, cada área pode "puxar para um lado", resultando em perda de oportunidades. O SLA é o primeiro passo para mudar essa realidade.</p>
+                <a href="#chapter2" class="text-sm mt-2 block">Voltar ao Capítulo 2</a>
+            </div>
+            <div id="feedback-sem-impacto" class="feedback-section negative mt-8 hidden">
+                <p><strong>É importante reavaliar.</strong> Mesmo que o impacto não seja óbvio, a falta de alinhamento pode estar impedindo um crescimento ainda maior e gerando ineficiências ocultas. Considere definir um SLA.</p>
+                <a href="#chapter2" class="text-sm mt-2 block">Voltar ao Capítulo 2</a>
+            </div>
+        </div>
+
+        <!-- Capítulo 3: Por que definir um SLA entre Marketing e Vendas é o primeiro passo? -->
+        <div id="chapter3" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 3: Por que definir um SLA entre Marketing e Vendas é o primeiro passo?</h2>
+            <p><strong>SLA (Service Level Agreement)</strong> é o acordo entre os times para definir critérios claros de lead qualificado, volume mínimo de entrega, tempo de resposta comercial e feedbacks periódicos. Sem isso, cada área puxa para um lado.</p>
+            <p>Atualmente:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li><strong>57% das empresas</strong> não têm SLA definido</li>
+                <li><strong>22%</strong> até têm, mas o time todo não conhece</li>
+                <li>Apenas <strong>21%</strong> têm um SLA bem estruturado e em execução</li>
+            </ul>
+            <p class="italic mt-4">“Definir metas conjuntas e revisar os acordos com frequência é o que diferencia os times que batem meta dos que vivem apagando incêndio.”</p>
+        </div>
+
+        <!-- Capítulo 4: Empresas com integração vendem mais — e os cases da Táime comprovam -->
+        <div id="chapter4" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 4: Empresas com integração vendem mais — e os cases da Táime comprovam</h2>
+            <p>A Táime é especialista em unir marketing, vendas e automação com inteligência artificial, e os resultados refletem isso. Veja o que aconteceu com algumas das empresas que passaram por nossa metodologia:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li><strong>Legus (Administração de Condomínios):</strong> 3x mais vendas em 6 meses com reposicionamento, automação de prospecção e funil de vendas estruturado.</li>
+                <li><strong>IEFE (Educação):</strong> triplicou o faturamento em 3 anos, atingindo metas de 5 anos com marketing de conteúdo, CRM e consultoria comercial.</li>
+                <li><strong>Kubota Caçambas (Serviços):</strong> bateu a meta de 6 meses em apenas 3, com crescimento de 30% no faturamento.</li>
+                <li><strong>APE71 (Imobiliária):</strong> posicionamento consolidado em 12 meses, reconhecimento regional e geração de leads qualificados recorrentes.</li>
+            </ul>
+        </div>
+
+        <!-- Capítulo 5: Como está sua rotina entre Marketing e Vendas? (com interatividade) -->
+        <div id="chapter5" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 5: Como está sua rotina entre Marketing e Vendas?</h2>
+            <p>Essas práticas aumentam drasticamente o desempenho conjunto:</p>
+
+            <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                <thead>
+                    <tr>
+                        <th class="py-3 px-4">Prática</th>
+                        <th class="py-3 px-4">% de empresas que fazem</th>
+                        <th class="py-3 px-4">Sua empresa faz?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-3 px-4">Marketing acompanha resultado dos leads</td>
+                        <td class="py-3 px-4">69%</td>
+                        <td class="py-3 px-4">
+                            <a href="#feedback-quiz1-sim" class="interactive-button text-sm px-3 py-1">Sim</a>
+                            <a href="#feedback-quiz1-nao" class="interactive-button text-sm px-3 py-1">Não</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Marketing analisa motivos de perda</td>
+                        <td class="py-3 px-4">61%</td>
+                        <td class="py-3 px-4">
+                            <a href="#feedback-quiz2-sim" class="interactive-button text-sm px-3 py-1">Sim</a>
+                            <a href="#feedback-quiz2-nao" class="interactive-button text-sm px-3 py-1">Não</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Vendas usa histórico e comportamento dos leads</td>
+                        <td class="py-3 px-4">62%</td>
+                        <td class="py-3 px-4">
+                            <a href="#feedback-quiz3-sim" class="interactive-button text-sm px-3 py-1">Sim</a>
+                            <a href="#feedback-quiz3-nao" class="interactive-button text-sm px-3 py-1">Não</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Troca de feedbacks frequente entre os times</td>
+                        <td class="py-3 px-4">67%</td>
+                        <td class="py-3 px-4">
+                            <a href="#feedback-quiz4-sim" class="interactive-button text-sm px-3 py-1">Sim</a>
+                            <a href="#feedback-quiz4-nao" class="interactive-button text-sm px-3 py-1">Não</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">Reuniões de alinhamento regulares</td>
+                        <td class="py-3 px-4">70%</td>
+                        <td class="py-3 px-4">
+                            <a href="#feedback-quiz5-sim" class="interactive-button text-sm px-3 py-1">Sim</a>
+                            <a href="#feedback-quiz5-nao" class="interactive-button text-sm px-3 py-1">Não</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="mt-6">Sem esses rituais, o funil se perde. Leads viram "nome na planilha" e o time comercial não sabe com quem está falando. CRM com dados integrados e ferramentas de automação viram o diferencial entre empresas que só geram leads... e empresas que vendem todos os dias.</p>
+
+            <!-- Seções de feedback para o quiz de rotina -->
+            <div id="feedback-quiz1-sim" class="feedback-section mt-8 hidden">
+                <p><strong>Ótimo!</strong> Essa prática é fundamental para o marketing entender o impacto de suas ações.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+            <div id="feedback-quiz1-nao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Atenção!</strong> Sem esse acompanhamento, o marketing pode não estar otimizando a qualidade dos leads entregues.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+
+            <div id="feedback-quiz2-sim" class="feedback-section mt-8 hidden">
+                <p><strong>Excelente!</strong> Isso permite ao marketing ajustar suas estratégias e gerar leads mais alinhados.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+            <div id="feedback-quiz2-nao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Isso é uma oportunidade perdida!</strong> O marketing precisa desses insights para refinar a qualificação de leads.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+
+            <div id="feedback-quiz3-sim" class="feedback-section mt-8 hidden">
+                <p><strong>Perfeito!</strong> Isso garante uma abordagem mais personalizada e eficaz do time de vendas.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+            <div id="feedback-quiz3-nao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Preocupante!</strong> Leads podem virar "nome na planilha" se o time comercial não souber com quem está falando.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+
+            <div id="feedback-quiz4-sim" class="feedback-section mt-8 hidden">
+                <p><strong>Essencial!</strong> O diálogo constante entre as equipes é a base para o alinhamento e a melhoria contínua.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+            <div id="feedback-quiz4-nao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Um ponto a ser melhorado!</strong> Sem feedback, os times podem operar em silos, prejudicando o fluxo.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+
+            <div id="feedback-quiz5-sim" class="feedback-section mt-8 hidden">
+                <p><strong>Fundamental!</strong> As reuniões garantem que todos estejam na mesma página e trabalhem em sincronia.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+            <div id="feedback-quiz5-nao" class="feedback-section negative mt-8 hidden">
+                <p><strong>Isso pode causar descompasso!</strong> Rituais de alinhamento são cruciais para que o funil não se perca.</p>
+                <a href="#chapter5" class="text-sm mt-2 block">Voltar ao Capítulo 5</a>
+            </div>
+        </div>
+
+        <!-- Capítulo 6: Ferramentas certas + estratégia + acompanhamento = resultado real -->
+        <div id="chapter6" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 6: Ferramentas certas + estratégia + acompanhamento = resultado real</h2>
+            <p>Na Táime, a integração vai além do discurso:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>Utilizamos um <strong>CRM próprio</strong>, com automação de marketing e vendas integrada</li>
+                <li>Criamos <strong>funis com etapas automatizadas</strong>, histórico de interações e rastreamento de performance</li>
+                <li>Toda prospecção ativa é automatizada com <strong>IA</strong>, tanto no LinkedIn quanto por e-mail</li>
+                <li>Temos <strong>reuniões mensais</strong> com os times, com análise de dados reais, acompanhamento de metas e plano de ação</li>
+            </ul>
+        </div>
+
+        <!-- Capítulo 7: Resumo para líderes que querem escalar resultados -->
+        <div id="chapter7" class="content-section mt-8">
+            <h2 class="section-title">Capítulo 7: Resumo para líderes que querem escalar resultados</h2>
+            <p>Mesmo com boas iniciativas isoladas, apenas <strong>18% das empresas</strong> afirmam ter uma integração real entre marketing e vendas.</p>
+            <p>Se sua empresa ainda enfrenta:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>Leads desqualificados</li>
+                <li>Metas não batidas</li>
+                <li>Time comercial desmotivado</li>
+                <li>Falta de clareza nos números</li>
+            </ul>
+            <p>... talvez não falte esforço — falta uma metodologia única e integrada com automação e IA que só a Táime Aceleradora de Marketing e Vendas pode oferecer.</p>
+        </div>
+
+        <!-- Seção de Contato com botão do WhatsApp -->
+        <div id="contact" class="content-section mt-8">
+            <h2 class="section-title text-center">Vamos conversar?</h2>
+            <p class="text-center">Se quiser entender como seria aplicar essa integração no seu seu negócio, fale com um especialista da Táime. Podemos te mostrar os bastidores da nossa metodologia e o que ela pode fazer na prática, em menos de 30 minutos.</p>
+
+            <div class="whatsapp-button-container">
+                <a href="https://wa.me/5511995473431?text=Ol%C3%A1%20recebi%20o%20ebook%20e%20gostaria%20de%20agendar%20uma%20call..." target="_blank" class="whatsapp-button">
+                    <i class="fab fa-whatsapp whatsapp-icon"></i> Fale com um especialista
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para mostrar a seção de feedback e esconder as outras
+        function showFeedback(idToShow) {
+            // Seleciona todas as seções de feedback (para o quiz de integração e rotina)
+            const feedbackSections = document.querySelectorAll('.feedback-section');
+            feedbackSections.forEach(section => {
+                section.classList.add('hidden'); // Esconde todas as seções de feedback
+            });
+            // Mostra apenas a seção de feedback desejada
+            const targetSection = document.getElementById(idToShow);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                // Rola a página até a seção de feedback
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Adiciona event listeners para os links do quiz de integração
+        document.querySelectorAll('#chapter2 .interactive-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Previne o comportamento padrão do link
+                const targetId = this.getAttribute('href').substring(1); // Pega o ID do alvo (ex: 'feedback-satisfatoria')
+                showFeedback(targetId);
+            });
+        });
+
+        // Adiciona event listeners para os links do quiz de rotina (capítulo 5)
+        document.querySelectorAll('#chapter5 .interactive-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Previne o comportamento padrão do link
+                const targetId = this.getAttribute('href').substring(1); // Pega o ID do alvo (ex: 'feedback-quiz1-sim')
+                showFeedback(targetId);
+            });
+        });
+
+        // Adiciona event listeners para os links "Voltar ao Capítulo X"
+        document.querySelectorAll('.feedback-section a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Previne o comportamento padrão do link
+                const targetId = this.getAttribute('href').substring(1); // Pega o ID do alvo (ex: 'chapter2')
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // Esconde a seção de feedback atual ao voltar
+                this.closest('.feedback-section').classList.add('hidden');
+            });
+        });
+
+        // Rola para o topo ao carregar a página para garantir que o ebook comece do início
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+    </script>
+</body>
+</html>
